@@ -1,5 +1,10 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+from huggingface_hub import hf_hub_download
+from transformers import TrOCRProcessor, VisionEncoderDecoderModel
+import joblib
+
+
 
 from transformers import (
     TrOCRProcessor,
@@ -28,44 +33,57 @@ app.add_middleware(
 )
 
 
+HF_REPO = "priyanshuraj7590/manuscriptai-trocr-model"
 
+print("Loading TrOCR from Hugging Face...")
 
+processor = TrOCRProcessor.from_pretrained(HF_REPO)
 
-print("Loading TrOCR...")
-
-processor = TrOCRProcessor.from_pretrained(
-    "./model/trocr_tridis_model"
-)
-
-trocr = VisionEncoderDecoderModel.from_pretrained(
-    "./model/trocr_tridis_model"
-)
+trocr = VisionEncoderDecoderModel.from_pretrained(HF_REPO)
 
 print("Loading Random Forest...")
 
 language_model = joblib.load(
-    "./model/language_rf.pkl"
+    hf_hub_download(
+        repo_id=HF_REPO,
+        filename="language_rf.pkl"
+    )
 )
 
-print("Loading XGBoost...")
+print("Loading Script XGBoost...")
 
 script_model = joblib.load(
-    "./model/script_xgb.pkl"
+    hf_hub_download(
+        repo_id=HF_REPO,
+        filename="script_xgb.pkl"
+    )
 )
 
 script_encoder = joblib.load(
-    "./model/script_encoder.pkl"
+    hf_hub_download(
+        repo_id=HF_REPO,
+        filename="script_encoder.pkl"
+    )
 )
 
-
+print("Loading Century XGBoost...")
 
 century_model = joblib.load(
-    "./model/century_xgb.pkl"
+    hf_hub_download(
+        repo_id=HF_REPO,
+        filename="century_xgb.pkl"
+    )
 )
 
 century_encoder = joblib.load(
-    "./model/century_encoder.pkl"
+    hf_hub_download(
+        repo_id=HF_REPO,
+        filename="century_encoder.pkl"
+    )
 )
+
+
+
 
 # model century 
 # century_model = joblib.load(
