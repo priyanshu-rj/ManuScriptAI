@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+venv/
+env/
+
+# Node
+node_modules/
+
+# Environment Files
+.env
+.env.local
+
+# Models
+*.safetensors
+*.bin
+*.pth
+*.pt
+*.ckpt
+*.pkl
+
+backend/model/
+
+# Uploads
+uploads/
+backend/uploads/
+
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Build
+dist/
+build/

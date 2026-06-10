@@ -1,0 +1,39 @@
+from fastapi import FastAPI, UploadFile, File
+from PIL import Image
+from transformers import TrOCRProcessor, VisionEncoderDecoderModel
+import torch
+
+app = FastAPI()
+
+MODEL_PATH = "./model/trocr_tridis_model"
+
+processor = TrOCRProcessor.from_pretrained(MODEL_PATH)
+model = VisionEncoderDecoderModel.from_pretrained(MODEL_PATH)
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+model.to(device)
+
+@app.get("/")
+def home():
+    return {"message": "TrOCR API Running"}
+
+@app.post("/ocr")
+async def ocr(file: UploadFile = File(...)):
+
+    image = Image.open(file.file).convert("RGB")
+
+    pixel_values = processor(
+        image,
+        return_tensors="pt"
+    ).pixel_values.to(device)
+
+    generated_ids = model.generate(pixel_values)
+
+    text = processor.batch_decode(
+        generated_ids,
+        skip_special_tokens=True
+    )[0]
+
+    return {
+        "text": text
+    }

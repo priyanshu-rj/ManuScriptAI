@@ -1,0 +1,21 @@
+Image
+  ↓
+OpenCV
+(Image Enhancement)
+  ↓
+TrOCR
+(Image → Text)
+  ↓
+Random Forest
+(Text → Language)
+  ↓
+XGBoost
+(Text → Script)
+  ↓
+MongoDB
+  ↓
+FastAPI
+  ↓
+React
+
+use  python -m uvicorn app:app --reload    to start backend 
