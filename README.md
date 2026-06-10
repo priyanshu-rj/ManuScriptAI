@@ -34,4 +34,9 @@ Download:
 Place them in:
 
 backend/model/
+
+```
+```
+Hugginge Face Link
+- https://huggingface.co/priyanshuraj7590/manuscriptai-trocr-model/tree/main
 ```
